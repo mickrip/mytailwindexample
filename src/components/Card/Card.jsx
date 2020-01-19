@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import LazyLoadedCardStyles from "./LazyLoadedCardStyles.jsx";
+import LazyLoadedCardStyles from "./CardStyles.jsx";
 import inView from "vanillajs-browser-helpers/inView";
 import useAppState from "../../statemachine/useAppState";
 
-const LazyLoadedCard = () => {
+const Card = () => {
   const cardRef = useRef(null);
   const [visible, setVisible] = useState(false);
   const { scrollY } = useAppState("scrollposition");
@@ -23,4 +23,4 @@ const LazyLoadedCard = () => {
   );
 };
 
-export default LazyLoadedCard;
+export default Card;
