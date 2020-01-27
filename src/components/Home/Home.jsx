@@ -1,18 +1,24 @@
 import React from "react";
 import HomeStyles from "./HomeStyles.jsx";
-import Card from "../Card/Card";
-import CardContainer from "../Card/CardContainer";
+
+import { useAppState } from "../../statemachine";
 
 const arrayOfThings = [...Array(800).keys()];
 
 const Home = () => {
+  const { count, increment, externalData } = useAppState("counter");
+  console.log("cou", externalData);
+
   return (
     <HomeStyles>
-      <CardContainer>
-        {arrayOfThings.map((v, k) => {
-          return <Card key={k} />;
-        })}
-      </CardContainer>
+      <h1>Counter: {count}</h1>
+      <button onClick={() => increment()}>CLick here</button>
+
+      <button onClick={() => externalData.refresh()}>
+        Get DATA {externalData.data}
+      </button>
+
+      {externalData.isFetching && <div>FETCHING</div>}
     </HomeStyles>
   );
 };
