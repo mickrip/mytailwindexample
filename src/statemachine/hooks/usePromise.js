@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useCallback, useRef, useEffect } from "react";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -36,33 +36,38 @@ const initialState = {
 
 const usePromise = promFunc => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const isFetchingRef = useRef(false);
 
-  const refresh = (...args) => {
-    if (state.isFetching === true) return;
-    dispatch({ type: "startFetching" });
-    let _data;
-    let _error;
-    promFunc(...args)
-      .then(payload => {
-        _data = payload;
-      })
-      .catch(err => {
-        _error = err;
-      })
-      .finally(_ => {
-        if (_data) {
-          dispatch({ type: "success", payload: _data });
-        }
-        if (_error) {
-          dispatch({ type: "error", payload: _error });
-        }
-      });
-  };
+  useEffect(() => {
+    isFetchingRef.current = state.isFetching;
+  }, [state.isFetching]);
 
-  return {
-    ...state,
-    refresh
-  };
+  const refresh = useCallback(
+    (...args) => {
+      if (isFetchingRef.current === true) return;
+      dispatch({ type: "startFetching" });
+      let _data;
+      let _error;
+      promFunc(...args)
+        .then(payload => {
+          _data = payload;
+        })
+        .catch(err => {
+          _error = err;
+        })
+        .finally(_ => {
+          if (_data) {
+            dispatch({ type: "success", payload: _data });
+          }
+          if (_error) {
+            dispatch({ type: "error", payload: _error });
+          }
+        });
+    },
+    [promFunc]
+  );
+
+  return [{ ...state }, refresh];
 };
 
 export default usePromise;

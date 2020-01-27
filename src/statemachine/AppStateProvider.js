@@ -21,7 +21,7 @@ function reducer(state, action) {
 
 let oldMapOfInstancesStringified;
 
-const AppStateWrapper = ({
+const AppStateProvider = ({
   children,
   containers = {},
   wrappers = [<DefaultWrapper />],
@@ -33,7 +33,7 @@ const AppStateWrapper = ({
   // refresh instances
   let mapOfInstances = {};
   Object.keys(containers).forEach(k => {
-    mapOfInstances[k] = containers[k](dispatcher, state);
+    mapOfInstances[k] = containers[k](state, dispatcher);
   });
 
   // middleware and state-related effect hooks
@@ -79,10 +79,10 @@ const AppStateWrapper = ({
   );
 };
 
-AppStateWrapper.propTypes = {
+AppStateProvider.propTypes = {
   children: PropTypes.element.isRequired,
   containers: PropTypes.object.isRequired,
   wrappers: PropTypes.arrayOf(PropTypes.element)
 };
 
-export default AppStateWrapper;
+export default AppStateProvider;

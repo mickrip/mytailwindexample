@@ -3,8 +3,6 @@ import HomeStyles from "./HomeStyles.jsx";
 
 import { useAppState } from "../../statemachine";
 
-const arrayOfThings = [...Array(800).keys()];
-
 const Home = () => {
   const { count, increment, externalData } = useAppState("counter");
   console.log("cou", externalData);
