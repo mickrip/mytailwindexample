@@ -8,47 +8,49 @@ import persistLocalStorage from "./statemachine/middleware/persistLocalStorage";
 import { useAppState } from "./statemachine";
 import usePromise from "./statemachine/hooks/usePromise";
 
-// fake promise
-const getData = () =>
-  new Promise(resolve => {
-    setTimeout(() => {
-      resolve("We have data");
-    }, 1000);
-  });
+const useCounter = (state, dispatch) => {
+  const [count, setCount] = useState(0);
+  const increment = () => {
+    dispatch({ type: "hello", payload: "desc" });
+    setCount(count + 1);
+  };
+  const decrement = () => {
+    dispatch({ type: "hello", payload: "desc" });
+    setCount(count - 1);
+  };
 
-// only has a promise
-const useExampleContainer = () => {
-  const [dataApi, refreshDataApi] = usePromise(getData);
-  return { dataApi, refreshDataApi };
+  return {
+    increment,
+    decrement,
+    count
+  };
 };
 
 // Define some state containers
 const containers = {
-  example: useExampleContainer
+  counter: useCounter
 };
 
 // Wrap your app with AppStateProvider
-function App() {
+const App = () => {
   return (
     <AppStateProvider containers={containers}>
       <MyComponent />
     </AppStateProvider>
   );
-}
+};
 
 // A child component
 const MyComponent = () => {
-  const { dataApi, refreshDataApi } = useAppState("example");
-
-  useEffect(() => {
-    refreshDataApi();
-  }, [refreshDataApi]);
+  // hooks remain persistent app-wide
+  const { count, increment, decrement } = useAppState("counter");
 
   return (
     <>
-      <div>{dataApi.data || " "}</div>
-      <button onClick={() => refreshDataApi()}>Refresh</button>
-      {dataApi.isFetching && <div>FETCHING</div>}
+      count: {count}
+      <br />
+      <button onClick={increment}>up</button>
+      <button onClick={decrement}>down</button>
     </>
   );
 };

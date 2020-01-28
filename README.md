@@ -1,8 +1,3 @@
-# TailWind RCA Example
-
-https://mytailwindexample.mickrip.now.sh/
-
-
 # react-app-state
 
 React-app state management using hooks.
@@ -127,7 +122,9 @@ const MyComponent = () => {
 ## Example 3: Async/Promises
 
 Async data handling should be fairly straightforward. You're managing
-state along the same lines as if you were doing it inside a component. 
+state along the same lines as if you were doing it inside a component. The following
+example serves as a somewhat impractical use-case. However, it's likely you will want to occasionally store the result
+of some API calls in state.
 
 [![Edit react-app-state example #3](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/react-app-state-example-2-31xcy?fontsize=14&hidenavigation=1&theme=dark)
 
@@ -178,5 +175,13 @@ const MyComponent = () => {
 };
 
 ```
+
+
+## Custom Data Interceptors
+
+A custom data interceptor is fired every time there is a state change in any container.
+
+
+
 
 

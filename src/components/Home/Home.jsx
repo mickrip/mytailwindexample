@@ -5,7 +5,6 @@ import { useAppState } from "../../statemachine";
 
 const Home = () => {
   const { count, increment, externalData } = useAppState("counter");
-  console.log("cou", externalData);
 
   return (
     <HomeStyles>

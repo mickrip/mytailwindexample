@@ -14,7 +14,6 @@ const persistLocalStorage = (test = []) => {
           ...{ [key.key]: foo }
         };
       });
-      console.log("SET ITEM", JSON.stringify(collectPersist));
       localStorage.setItem("react_persist", JSON.stringify(collectPersist));
     },
     init: dispatch => {

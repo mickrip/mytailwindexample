@@ -9,6 +9,7 @@ const DefaultWrapper = ({ children }) => {
 const defaultMiddleware = () => {};
 
 function reducer(state, action) {
+  console.log("ACTION", action);
   switch (action.type) {
     case "updateState":
       return { ...state, ...action.payload };
